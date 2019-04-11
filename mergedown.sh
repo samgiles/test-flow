@@ -36,11 +36,12 @@ echo "Checking out ${merge_target}"
 git checkout ${merge_target}
 
 echo "Merging ${TRAVIS_COMMIT}"
-git merge --ff-only "$TRAVIS_COMMIT"
+git merge --ff-only "$TRAVIS_COMMIT" --porcelain
 
 echo "Pushing to ${GITHUB_REPO}"
-
 push_uri="https://${GITHUB_TOKEN}@github.com/${GITHUB_REPO}"
 
 # Redirect to /dev/null to avoid secret leakage
+# Also we don't care if it fails really.
+set +e
 git push \"${push_uri}\" \"${merge_target}\" >/dev/null 2>&1
