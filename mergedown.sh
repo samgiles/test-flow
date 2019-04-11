@@ -36,7 +36,7 @@ echo "Checking out ${merge_target}"
 git checkout ${merge_target}
 
 echo "Merging ${TRAVIS_COMMIT}"
-git merge --ff-only "$TRAVIS_COMMIT" --porcelain
+git merge --ff-only "$TRAVIS_COMMIT" 
 
 echo "Pushing to ${GITHUB_REPO}"
 push_uri="https://${GITHUB_TOKEN}@github.com/${GITHUB_REPO}"
