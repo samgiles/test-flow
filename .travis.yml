@@ -1,0 +1,3 @@
+language: minimal
+script:
+  GITHUB_REPO=samgiles/test-flow ./mergedown.sh
