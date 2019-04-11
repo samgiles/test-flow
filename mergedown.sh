@@ -12,8 +12,8 @@ if [ -z ${GITHUB_REPO} ]; then
   exit
 fi
 
-export GIT_COMMITTER_EMAIL='jeeves@form3.tech'
-export GIT_COMMITTER_NAME='JeevesOnCI'
+export GIT_COMMITTER_EMAIL='sam@ci'
+export GIT_COMMITTER_NAME='SamOnCI'
 
 # Merge targets -> current=target
 export master=test
@@ -26,9 +26,10 @@ if [ -z ${merge_target} ]; then
   exit
 fi
 
+echo "cloning repository"
 # Since Travis does a partial checkout, we need to get the whole thing
 repo_temp=$(mktemp -d)
-git clone "https://github.com/$GITHUB_REPO" "$repo_temp"
+git clone "https://${GITHUB_TOKEN}@github.com/$GITHUB_REPO" "$repo_temp"
 
 cd "$repo_temp"
 
@@ -40,7 +41,7 @@ git merge --ff-only "$TRAVIS_COMMIT"
 
 echo "Pushing to ${GITHUB_REPO}"
 
-push_uri="https://$GITHUB_TOKEN@github.com/$GITHUB_REPO"
+push_uri="https://${GITHUB_TOKEN}@github.com/${GITHUB_REPO}"
 
 # Redirect to /dev/null to avoid secret leakage
-echo "git push \"${push_uri}\" \"${merge_target}\" >/dev/null 2>&1"
+git push \"${push_uri}\" \"${merge_target}\" >/dev/null 2>&1
